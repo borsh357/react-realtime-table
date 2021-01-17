@@ -1,0 +1,14 @@
+.table-header {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  grid-gap: 40px;
+  font-weight: bold;
+  margin-bottom: 30px;
+
+  .table-col {
+    border: black 1px solid;
+    box-sizing: border-box;
+    padding: 5px;
+    text-align: left;
+  }
+}
