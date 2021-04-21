@@ -32,25 +32,29 @@ const connections = []
 io.sockets.on('connection', function (socket) {
   console.log('Connected to Socket - ' + socket.id)
   connections.push(socket)
-  console.log(connections.length + ' clients connected')
+
   socket.on('disconnect', function () {
     console.log('Disconnected - ' + socket.id)
-    connections.splice(socket)
+    connections.splice(connections.indexOf(socket), 1)
   })
 
-  socket.on('change', (data) => {
-    console.log(data)
+  socket.on('changeTable', (data) => {
+    const fs = require('fs')
+    fs.writeFile('server/db.json', JSON.stringify(data), (err) => {
+      if (err) throw err
+    })
+    socket.emit('loadTable')
   })
 
-  // socket.on('loadData', (data) => {
-  //   const fs = require('fs');
-  //   fs.readFile('db.json', function (err, data) {
-  //     const db = JSON.parse(data);
-  //     io.sockets.emit('loadTable', db);
-  //     fs.writeFile('db.json', JSON.stringify(db), (err) => {
-  //       if (err) throw err;
-  //     });
-  // })
+  socket.on('loadTable', (data) => {
+    const fs = require('fs')
+    fs.readFile('server/db.json', function (err, data) {
+      const db = JSON.parse(data)
+      io.sockets.emit('updateTable', db)
+    })
+  })
+
+  console.log(connections.length + ' clients connected')
 })
 
 server.listen(4000, () => {

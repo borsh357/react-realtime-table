@@ -12,7 +12,7 @@ export default function Table({ rows }) {
       {rows.map((row) => (
         <TableRow key={row.id} data={row} />
       ))}
-      <TotalPriceRow />
+      <TotalPriceRow rows={rows} />
     </div>
   )
 }

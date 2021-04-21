@@ -1,6 +1,7 @@
-import initialState from '../initialState'
+import initialState from '../js/initialState'
+import socket from '../js/socketConnect'
 
-export default function editTableReducer(state = initialState, action) {
+export default function tableReducer(state = initialState, action) {
   let newState
   switch (action.type) {
     case 'UPDATE_TABLE':
@@ -17,6 +18,7 @@ export default function editTableReducer(state = initialState, action) {
         }
         return row
       })
+      socket.emit('changeTable', newState)
       return newState
     case 'EDIT_PRICE':
       if (!Number(action.payload.price)) {
@@ -29,6 +31,7 @@ export default function editTableReducer(state = initialState, action) {
         }
         return row
       })
+      socket.emit('changeTable', newState)
       return newState
     default:
       return state
