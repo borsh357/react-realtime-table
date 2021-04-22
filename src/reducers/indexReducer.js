@@ -1,3 +1,7 @@
 import { combineReducers } from 'redux'
+import tableReducer from './tableReducer'
+import cursorsReducer from './cursorsReducer'
 
-export default combineReducers({})
+const indexReducer = combineReducers({ tableReducer, cursorsReducer })
+
+export default indexReducer

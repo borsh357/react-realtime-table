@@ -1,7 +1,6 @@
 import { createStore } from 'redux'
-import initialState from './initialState'
-import tableReducer from '../reducers/tableReducer'
+import indexReducer from '../reducers/indexReducer'
 
-const store = createStore(tableReducer, initialState)
+const store = createStore(indexReducer)
 
 export default store

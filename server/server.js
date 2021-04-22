@@ -2,20 +2,10 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const http = require('http')
 const socketServer = require('socket.io')
-const cors = require('cors')
 
 const app = express()
-app.use(cors())
-
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
-
-// const fs = require('fs')
-// app.get('/data', (req, res) => {
-//   fs.readFile('db.json', function (err, data) {
-//     res.send(data)
-//   })
-// })
 
 const server = http.createServer(app)
 const io = socketServer(server, {
@@ -25,10 +15,8 @@ const io = socketServer(server, {
   },
 })
 
-/***************************************************************************************** */
-/* Socket logic starts here																   */
-/***************************************************************************************** */
 const connections = []
+const cursors = []
 io.sockets.on('connection', function (socket) {
   console.log('Connected to Socket - ' + socket.id)
   connections.push(socket)
@@ -54,23 +42,23 @@ io.sockets.on('connection', function (socket) {
     })
   })
 
+  socket.on('changeCursorPosition', (x, y) => {
+    cursors.splice(
+      cursors.indexOf(
+        connections.find((connection) => {
+          if (connection.id === '1') return true
+          return connection
+        })
+      ),
+      1
+    )
+    cursors.push({ id: socket.id, x: x, y: y })
+    io.sockets.emit('drawCursors', cursors)
+  })
+
   console.log(connections.length + ' clients connected')
 })
 
 server.listen(4000, () => {
   console.log('Server running on port 4000...')
 })
-
-// const jsonServer = require('json-server')
-// const server = jsonServer.create()
-// const router = jsonServer.router('db.json')
-// const middleware = jsonServer.defaults()
-
-// server.use((req, res, next) => {
-//   setTimeout(() => next(), 2000)
-// })
-// server.use(middleware)
-// server.use(router)
-// server.listen(4000, () => {
-//   console.log(`JSON Server is running on port 4000...`)
-// })
