@@ -38,7 +38,9 @@ function App() {
       <Table rows={rows} />
       {cursors.map((cursor) => {
         if (cursor)
-          var elem = <Cursor key={cursor.id} x={cursor.x} y={cursor.y} />
+          var elem = (
+            <Cursor key={cursor.id} id={cursor.id} x={cursor.x} y={cursor.y} />
+          )
         return elem
       })}
     </div>

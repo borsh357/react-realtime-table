@@ -2,7 +2,7 @@ import React from 'react'
 import './Cursor.scss'
 import PropTypes from 'prop-types'
 
-export default function Cursor({ x, y }) {
+export default function Cursor({ id, x, y }) {
   return (
     <div className="cursor" style={{ left: x, top: y }}>
       <svg
@@ -30,6 +30,7 @@ export default function Cursor({ x, y }) {
         />
         <polygon points="9.2,7.3 9.2,18.5 12.2,15.6 12.6,15.5 17.4,15.5 " />
       </svg>
+      <div className="cursor-id">{id}</div>
     </div>
   )
 }
@@ -37,4 +38,5 @@ export default function Cursor({ x, y }) {
 Cursor.propTypes = {
   x: PropTypes.number.isRequired,
   y: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
 }
